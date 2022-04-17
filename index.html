@@ -1,0 +1,52 @@
+<html>
+
+<head></head>
+
+<body>
+    <form id="login-form">
+        <input type="email" name="email" id="email">
+        <input type="password" name="password" id="password">
+        <input type="submit">
+    </form>
+    <script>
+        function login(e) {
+            if (e.preventDefault) e.preventDefault();
+
+            const email = document.getElementById("email").value
+            const password = document.getElementById("password").value
+
+            var data = new FormData();
+            data.append("json", JSON.stringify({
+                email,
+                password
+            }));
+
+            fetch('http://192.168.88.164:5000/users/', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json, text/plain, */*',
+                    "Content-Type": "application/json; charset=utf-8"
+                },
+                body: JSON.stringify({
+                    email,
+                    password
+                })
+            })
+                .then(result => {
+                    console.log({ result })
+                })
+
+            return false;
+        }
+
+        var form = document.getElementById('login-form');
+
+        if (form.attachEvent) {
+            form.attachEvent("submit", login);
+        } else {
+            form.addEventListener("submit", login);
+        }
+    </script>
+</body>
+
+</html>
